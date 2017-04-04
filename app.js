@@ -37,13 +37,13 @@ new Vue({
         heal: function () {
             if (this.playerHealth <= 90){
                 this.playerHealth += 10;
-                this.turns.unshift({
-                    isPlayer: true,
-                    text: 'Player heals hiself for 10'
-            });
             } else {
                 this.playerHealth = 100;
             }
+            this.turns.unshift({
+                    isPlayer: true,
+                    text: 'Player heals himself for 10'
+            });
             this.monsterAttack(5,12);
         },
         giveUp: function () {
