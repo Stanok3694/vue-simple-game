@@ -47,12 +47,18 @@
                 <button id="give-up" @click="giveUp">GIVE UP</button>
             </div>
         </section>
-        <section class="row log" v-if="gameIsRunning">
+        <section class="row log" v-if="!firstLaunch">
             <div class="small-12 columns">
                 <ul>
                     <li 
                         v-for = "turn in turns"
-                        :class = "{'player-turn': turn.isPlayer, 'monster-turn': !turn.isPlayer}"
+                        :class = "{
+                                    'battle-begin': turn.isFirstLaunch,
+                                    'player-turn': turn.isPlayer && turn.isPlayerFeelGood,
+                                    'player-lost': turn.isPlayer && !turn.isPlayerFeelGood,
+                                    'player-win': turn.isPlayer && turn.isPlayerWin,
+                                    'monster-turn': !turn.isPlayer
+                                    }"
                         >
                         {{ turn.text }}
                     </li>

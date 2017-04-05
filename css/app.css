@@ -37,12 +37,27 @@
 
 .log ul .player-turn{
     color: blue;
-    background-color: #e4e8ff;
+    background-color: #87CEFA;
+}
+
+.log ul .player-lost{
+    color: navajowhite;
+    background-color: firebrick;
+}
+
+.log ul .player-win{
+    color: cornsilk;
+    background-color: goldenrod;
 }
 
 .log ul .monster-turn{
     color: red;
     background-color: #ffc0c1;
+}
+
+.log ul .battle-begin{
+    color: white;
+    background-color: lightgreen;
 }
 
 button {

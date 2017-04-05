@@ -4,6 +4,10 @@ new Vue({
         playerHealth: 100,
         monsterHealth: 100,
         gameIsRunning: false,
+        firstLaunch: true, 
+        stepCounter: 0,
+        allPutDamage: 0,
+        allGetDamage: 0,
         turns: []
     },
     methods:{
@@ -12,9 +16,14 @@ new Vue({
             this.gameIsRunning = true;
             this.playerHealth = 100,
             this.monsterHealth = 100,
+            this.firstLaunch = false,
+            this.stepCounter = 0,
+            this.allPutDamage = 0,
+            this.allGetDamage = 0,
             this.turns = [],
             this.turns.unshift({
-                 text: 'Battle begins...'
+                isFirstLaunch: true,
+                text: 'Battle begins...'
             });
         },
         attack: function () {
@@ -42,20 +51,29 @@ new Vue({
             }
             this.turns.unshift({
                     isPlayer: true,
+                    isPlayerFeelGood: true,
                     text: 'Player heals himself for 10'
             });
             this.monsterAttack(5,12);
         },
         giveUp: function () {
             this.gameIsRunning = false;
-            alert('You are the weak scum! You lose!');
+            this.turns = [];
+            this.turns.unshift({
+                isPlayer: true,
+                isPlayerFeelGood: false,
+                text: 'No glory - no mercy! You lost your own battle!'
+            });
         },
         // service section
         playerAttack: function(min, max){
             var dealDamage = this.calculateDamage(min,max);
             this.monsterHealth -= dealDamage;
+            this.allPutDamage += dealDamage;
+            this.stepCounter += 1;
             this.turns.unshift({
                 isPlayer: true,
+                isPlayerFeelGood: true,
                 text: 'Player hits Monster for' + dealDamage
             });
         },
@@ -64,6 +82,7 @@ new Vue({
             this.playerHealth -= dealDamage;
             this.turns.unshift({
                 isPlayer: false,
+                isPlayerFeelGood: false,
                 text: 'Monster hits Player for' + dealDamage
             });
         },
@@ -72,18 +91,16 @@ new Vue({
         },
         winStatus: function() {
             if(this.monsterHealth <= 0){
-                if(confirm('You won! New Game?')){
-                    this.startGame();
-                } else {
-                    this.gameIsRunning = false;
-                }
+                this.gameIsRunning = false;
+                this.turns = [];
+                this.turns.unshift({
+                    isPlayer: true,
+                    isPlayerWin: true,
+                    text: 'Glory day! You won in your battle!'
+                });
                 return true;
             } else if (this.playerHealth <= 0){
-                if(confirm('You lost! New Game?')){
-                    this.startGame();
-                } else {
-                    this.gameIsRunning = false;
-                }
+                this.giveUp();
                 return true;
             }
             return false;
