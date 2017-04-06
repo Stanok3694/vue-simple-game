@@ -57,7 +57,8 @@
                                     'player-turn': turn.isPlayer && turn.isPlayerFeelGood,
                                     'player-lost': turn.isPlayer && !turn.isPlayerFeelGood,
                                     'player-win': turn.isPlayer && turn.isPlayerWin,
-                                    'monster-turn': !turn.isPlayer
+                                    'monster-turn': !turn.isPlayer,
+                                    'player-heal': turn.isPlayer && turn.isHeal
                                     }"
                         >
                         {{ turn.text }}

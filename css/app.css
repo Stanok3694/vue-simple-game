@@ -60,6 +60,11 @@
     background-color: lightgreen;
 }
 
+.log ul .player-heal{
+    color: greenyellow;
+    background-color: burlywood;
+}
+
 button {
     font-size: 20px;
     background-color: #eee;
