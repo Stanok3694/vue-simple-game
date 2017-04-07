@@ -35,32 +35,32 @@
     margin: 5px;
 }
 
-.log ul .player-turn{
+.log ul .player-attack{
     color: blue;
     background-color: #87CEFA;
 }
 
-.log ul .player-lost{
+.log ul .lose{
     color: navajowhite;
     background-color: firebrick;
 }
 
-.log ul .player-win{
+.log ul .win{
     color: cornsilk;
     background-color: goldenrod;
 }
 
-.log ul .monster-turn{
+.log ul .monster-attack{
     color: red;
     background-color: #ffc0c1;
 }
 
-.log ul .battle-begin{
+.log ul .begin{
     color: white;
     background-color: lightgreen;
 }
 
-.log ul .player-heal{
+.log ul .heal{
     color: greenyellow;
     background-color: burlywood;
 }

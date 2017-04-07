@@ -52,14 +52,7 @@
                 <ul>
                     <li 
                         v-for = "turn in turns"
-                        :class = "{
-                                    'battle-begin': turn.isFirstLaunch,
-                                    'player-turn': turn.isPlayer && turn.isPlayerFeelGood,
-                                    'player-lost': turn.isPlayer && !turn.isPlayerFeelGood,
-                                    'player-win': turn.isPlayer && turn.isPlayerWin,
-                                    'monster-turn': !turn.isPlayer,
-                                    'player-heal': turn.isPlayer && turn.isHeal
-                                    }"
+                        :class = "setClass(turn.classFlag)"
                         >
                         {{ turn.text }}
                     </li>

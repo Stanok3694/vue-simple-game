@@ -91,42 +91,50 @@ new Vue({
             return false;
         },
         setLogElementsInTurns: function (currentState, additionalInfo) {
-            if(currentState == 'begin') this.turns.unshift({
-                text: 'Battle begins...',
-                isFirstLaunch: true
-            })
+            if(currentState == 'begin') {
+                this.turns = [];
+                this.turns.unshift({
+                    text: 'Battle begins...',
+                    classFlag: currentState
+                })
+            }
             if(currentState == 'player-attack') this.turns.unshift({
                 text: 'Player hits Monster for ' + additionalInfo,
-                isPlayer: true,
-                isPlayerFeelGood: true
+                classFlag: currentState
             })
             if(currentState == 'monster-attack') this.turns.unshift({
                 text: 'Monster hits Player for ' + additionalInfo,
-                isPlayer: false
+                classFlag: currentState
             })
             if(currentState == 'heal') {
                 this.turns.unshift({
                     text: 'Player heals himself for 10',
-                    isPlayer: true,
-                    isHeal: true
+                    classFlag: currentState
                 });
             }
             if(currentState == 'win'){
                 this.turns = [];
                 this.turns.unshift({
                     text: 'Glory day! You won in your battle!',
-                    isPlayer: true,
-                    isPlayerWin: true
+                    classFlag: currentState
                 });
             }
             if(currentState == 'lose'){
                 this.turns = [];
                 this.turns.unshift({
                     text: 'No glory - no mercy! You lost your own battle!',
-                    isPlayer: true,
-                    isPlayerFeelGood: false
+                    classFlag: currentState
                 })
             }
+        },
+        setClass: function (classFlag) {
+            if(classFlag == 'begin') return classFlag
+            if(classFlag == 'player-attack') return classFlag
+            if(classFlag == 'monster-attack') return classFlag
+            if(classFlag == 'heal') return classFlag
+            if(classFlag == 'win') return classFlag
+            if(classFlag == 'lose') return classFlag
+            
         }
     }
 })
