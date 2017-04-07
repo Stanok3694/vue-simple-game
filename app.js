@@ -5,25 +5,20 @@ new Vue({
         monsterHealth: 100,
         gameIsRunning: false,
         firstLaunch: true,
-        currentState: 'begin', 
-        // stepCounter: 0,
-        // allPutDamage: 0,
-        // allGetDamage: 0,
+        currentState: '',
         turns: []
     },
     methods:{
-        // main methods section
+        // main game logic section
         startGame: function () {
             this.gameIsRunning = true;
-            this.playerHealth = 100,
-            this.monsterHealth = 100,
-            this.firstLaunch = false
-            this.setLogElementsInTurns('begin');
-            // statistic variables:
-            // this.stepCounter = 0,
-            // this.allPutDamage = 0,
-            // this.allGetDamage = 0,
+            this.firstLaunch = false;
+
+            this.playerHealth = 100;
+            this.monsterHealth = 100;
             
+            this.currentState = 'begin';
+            this.setLogElementsInTurns(this.currentState);          
         },
         attack: function () {
             this.playerAttack(3,10);
@@ -48,25 +43,33 @@ new Vue({
             } else {
                 this.playerHealth = 100;
             }
-            this.setLogElementsInTurns('heal');
+
+            this.currentState = 'heal';
+            this.setLogElementsInTurns(this.currentState);
+            
             this.monsterAttack(5,12);
         },
         giveUp: function () {
             this.gameIsRunning = false;
-            this.setLogElementsInTurns('lose');
+
+            this.currentState = 'lose';
+            this.setLogElementsInTurns(this.currentState);
         },
+
         // service section
         playerAttack: function(min, max){
             var dealDamage = this.calculateDamage(min,max);
             this.monsterHealth -= dealDamage;
-            this.setLogElementsInTurns('player-attack', dealDamage);
-            // this.allPutDamage += dealDamage;
-            // this.stepCounter += 1;
+
+            this.currentState = 'player-attack';
+            this.setLogElementsInTurns(this.currentState, dealDamage);
         },
         monsterAttack: function(min,max){
             var dealDamage = this.calculateDamage(min,max);
             this.playerHealth -= dealDamage;
-            this.setLogElementsInTurns('monster-attack', dealDamage);
+
+            this.currentState = 'monster-attack';
+            this.setLogElementsInTurns(this.currentState, dealDamage);
         },
         calculateDamage: function (min, max) {
             return Math.max(Math.floor(Math.random() * max) + 1, min);
@@ -74,27 +77,55 @@ new Vue({
         winStatus: function() {
             if(this.monsterHealth <= 0){
                 this.gameIsRunning = false;
-                this.setLogElementsInTurns('win');
+
+                this.currentState = 'win';
+                this.setLogElementsInTurns(this.currentState);
                 return true;
             } else if (this.playerHealth <= 0){
                 this.gameIsRunning = false;
-                this.setLogElementsInTurns('lose');
+
+                this.currentState = 'lose';
+                this.setLogElementsInTurns(this.currentState);
                 return true;
             }
             return false;
         },
         setLogElementsInTurns: function (currentState, additionalInfo) {
-            if(currentState == 'begin') this.turns.unshift({text: 'Battle begins...'})
-            if(currentState == 'player-attack') this.turns.unshift({text: 'Player hits Monster for ' + additionalInfo})
-            if(currentState == 'monster-attack') this.turns.unshift({text: 'Monster hits Player for ' + additionalInfo})
-            if(currentState == 'heal') this.turns.unshift({text: 'Player heals himself for 10'})
+            if(currentState == 'begin') this.turns.unshift({
+                text: 'Battle begins...',
+                isFirstLaunch: true
+            })
+            if(currentState == 'player-attack') this.turns.unshift({
+                text: 'Player hits Monster for ' + additionalInfo,
+                isPlayer: true,
+                isPlayerFeelGood: true
+            })
+            if(currentState == 'monster-attack') this.turns.unshift({
+                text: 'Monster hits Player for ' + additionalInfo,
+                isPlayer: false
+            })
+            if(currentState == 'heal') {
+                this.turns.unshift({
+                    text: 'Player heals himself for 10',
+                    isPlayer: true,
+                    isHeal: true
+                });
+            }
             if(currentState == 'win'){
                 this.turns = [];
-                this.turns.unshift({text: 'Glory day! You won in your battle!'});
+                this.turns.unshift({
+                    text: 'Glory day! You won in your battle!',
+                    isPlayer: true,
+                    isPlayerWin: true
+                });
             }
             if(currentState == 'lose'){
                 this.turns = [];
-                this.turns.unshift({text: 'No glory - no mercy! You lost your own battle!'})
+                this.turns.unshift({
+                    text: 'No glory - no mercy! You lost your own battle!',
+                    isPlayer: true,
+                    isPlayerFeelGood: false
+                })
             }
         }
     }
