@@ -77,6 +77,14 @@ button {
     background-color: #aaffb0;
 }
 
+#another-round {
+    background-color: pink;
+}
+
+#statistic {
+    background-color: greenyellow;
+}
+
 #start-game:hover {
     background-color: #ff3f43;
 }

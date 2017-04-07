@@ -3,16 +3,31 @@ new Vue({
     data:{
         playerHealth: 100,
         monsterHealth: 100,
+        
+        playerTotalDamage: 0,
+        playerTotalHeal: 0,
+        monsterTotalDamage: 0,
+
         gameIsRunning: false,
         firstLaunch: true,
+        matchEnd: false,
+        showStatistic: false,
+        showLog: false,
+
         currentState: '',
-        turns: []
+        
+        turns: [],
+        stats: []
     },
     methods:{
         // main game logic section
         startGame: function () {
             this.gameIsRunning = true;
             this.firstLaunch = false;
+            this.matchEnd = false;
+            this.showStatistic = false;
+            this.showLog = true;
+
 
             this.playerHealth = 100;
             this.monsterHealth = 100;
@@ -38,11 +53,15 @@ new Vue({
             this.winStatus();
         },
         heal: function () {
+            var dealHeal = 10;
+
             if (this.playerHealth <= 90){
-                this.playerHealth += 10;
+                this.playerHealth += dealHeal;
             } else {
                 this.playerHealth = 100;
             }
+
+            this.playerTotalHeal += dealHeal;
 
             this.currentState = 'heal';
             this.setLogElementsInTurns(this.currentState);
@@ -53,6 +72,7 @@ new Vue({
             this.gameIsRunning = false;
 
             this.currentState = 'lose';
+            this.setStatistic(this.currentState);
             this.setLogElementsInTurns(this.currentState);
         },
 
@@ -61,6 +81,8 @@ new Vue({
             var dealDamage = this.calculateDamage(min,max);
             this.monsterHealth -= dealDamage;
 
+            this.playerTotalDamage += dealDamage;
+
             this.currentState = 'player-attack';
             this.setLogElementsInTurns(this.currentState, dealDamage);
         },
@@ -68,6 +90,8 @@ new Vue({
             var dealDamage = this.calculateDamage(min,max);
             this.playerHealth -= dealDamage;
 
+            this.monsterTotalDamage += dealDamage;
+            
             this.currentState = 'monster-attack';
             this.setLogElementsInTurns(this.currentState, dealDamage);
         },
@@ -77,15 +101,21 @@ new Vue({
         winStatus: function() {
             if(this.monsterHealth <= 0){
                 this.gameIsRunning = false;
-
+                this.matchEnd = true;
+                this.showLog = true;
                 this.currentState = 'win';
                 this.setLogElementsInTurns(this.currentState);
+                this.setStatistic(this.currentState);
+                
                 return true;
             } else if (this.playerHealth <= 0){
                 this.gameIsRunning = false;
-
+                this.matchEnd = true;
+                this.showLog = true;
                 this.currentState = 'lose';
+                this.setStatistic(this.currentState);
                 this.setLogElementsInTurns(this.currentState);
+                
                 return true;
             }
             return false;
@@ -135,6 +165,32 @@ new Vue({
             if(classFlag == 'win') return classFlag
             if(classFlag == 'lose') return classFlag
             
+        },
+        setStatistic: function(currentState) {
+            if(currentState == 'lose'){
+                this.stats.unshift({
+                    text: 'You DEAL ' + this.playerTotalDamage 
+                          + ' damage, but You RECEIVE '
+                          + this.monsterTotalDamage
+                          + ' and HEAL only '
+                          + this.playerTotalHeal
+                          + ' so that is the reason of YOUR DEFEAT!'
+                });
+            }
+            if(currentState == 'win'){
+                this.stats.unshift({
+                    text: 'You DEAL ' + this.playerTotalDamage 
+                          + ' damage, but You RECEIVE '
+                          + this.monsterTotalDamage
+                          + ' and HEAL as many as '
+                          + this.playerTotalHeal
+                          + ' so that is the reason of YOUR TOTAL WIN!'
+                });
+            }
+        },
+        getStatistic: function(){
+            this.showStatistic = !this.showStatistic;
+            this.showLog = false;
         }
     }
 })

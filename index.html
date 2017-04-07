@@ -34,12 +34,12 @@
                 </div>
             </div>
         </section>
-        <section class="row controls" v-if="!gameIsRunning">
+        <section class="row controls" v-if="firstLaunch">
             <div class="small-12 columns">
                 <button id="start-game" @click="startGame">START NEW GAME</button>
             </div>
         </section>
-        <section class="row controls" v-else>
+        <section class="row controls" v-if="gameIsRunning">
             <div class="small-12 columns">
                 <button id="attack" @click="attack">ATTACK</button>
                 <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
@@ -47,7 +47,13 @@
                 <button id="give-up" @click="giveUp">GIVE UP</button>
             </div>
         </section>
-        <section class="row log" v-if="!firstLaunch">
+        <section class="row controls" v-if="matchEnd">
+            <div class="small-12 columns">
+                <button id="another-round" @click="startGame">TRY AGAIN</button>
+                <button id="statistic" @click="getStatistic">STATISTIC</button>
+            </div>
+        </section>
+        <section class="row log" v-if="showLog">
             <div class="small-12 columns">
                 <ul>
                     <li 
@@ -55,6 +61,17 @@
                         :class = "setClass(turn.classFlag)"
                         >
                         {{ turn.text }}
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="row log" v-if="showStatistic">
+            <div class="small-12 columns">
+                <ul>
+                    <li 
+                        v-for = "stat in stats"
+                        >
+                        {{ stat.text }}
                     </li>
                 </ul>
             </div>
