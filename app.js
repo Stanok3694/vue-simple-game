@@ -8,9 +8,10 @@ new Vue({
         playerTotalHeal: 0,
         monsterTotalDamage: 0,
 
-        gameIsRunning: false,
-        firstLaunch: true,
-        matchEnd: false,
+        showStartPanel: true,
+        showMainPanel: false,
+        giveUpFlag: true,
+        gameOver: false,
         showStatistic: false,
         showLog: false,
 
@@ -22,16 +23,20 @@ new Vue({
     methods:{
         // main game logic section
         startGame: function () {
-            this.gameIsRunning = true;
-            this.firstLaunch = false;
-            this.matchEnd = false;
+            this.showMainPanel = true;
+            this.showStartPanel = false;
+            this.gameOver = false;
             this.showStatistic = false;
             this.showLog = true;
-
 
             this.playerHealth = 100;
             this.monsterHealth = 100;
             
+            this.playerTotalDamage = 0;
+            this.playerTotalHeal = 0;
+            this.monsterTotalDamage = 0;            
+            this.stats = [];
+
             this.currentState = 'begin';
             this.setLogElementsInTurns(this.currentState);          
         },
@@ -69,7 +74,9 @@ new Vue({
             this.monsterAttack(5,12);
         },
         giveUp: function () {
-            this.gameIsRunning = false;
+            this.showMainPanel = false;
+            this.gameOver = true;
+            this.showLog = true;
 
             this.currentState = 'lose';
             this.setStatistic(this.currentState);
@@ -100,17 +107,17 @@ new Vue({
         },
         winStatus: function() {
             if(this.monsterHealth <= 0){
-                this.gameIsRunning = false;
-                this.matchEnd = true;
+                this.showMainPanel = false;
+                this.gameOver = true;
                 this.showLog = true;
                 this.currentState = 'win';
                 this.setLogElementsInTurns(this.currentState);
                 this.setStatistic(this.currentState);
                 
                 return true;
-            } else if (this.playerHealth <= 0){
-                this.gameIsRunning = false;
-                this.matchEnd = true;
+            }else if (this.playerHealth <= 0){
+                this.showMainPanel = false;
+                this.gameOver = true;
                 this.showLog = true;
                 this.currentState = 'lose';
                 this.setStatistic(this.currentState);
@@ -191,6 +198,10 @@ new Vue({
         getStatistic: function(){
             this.showStatistic = !this.showStatistic;
             this.showLog = false;
-        }
+        },
+        // giveUpListener: function() {
+        //     if(this.playerTotalDamage == 0 && this.playerTotalHeal == 0)
+        //         this.giveUpFlag = false;
+        // }
     }
 })

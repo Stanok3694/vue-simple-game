@@ -34,12 +34,12 @@
                 </div>
             </div>
         </section>
-        <section class="row controls" v-if="firstLaunch">
+        <section class="row controls" v-if="showStartPanel">
             <div class="small-12 columns">
                 <button id="start-game" @click="startGame">START NEW GAME</button>
             </div>
         </section>
-        <section class="row controls" v-if="gameIsRunning">
+        <section class="row controls" v-if="showMainPanel">
             <div class="small-12 columns">
                 <button id="attack" @click="attack">ATTACK</button>
                 <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
@@ -47,7 +47,7 @@
                 <button id="give-up" @click="giveUp">GIVE UP</button>
             </div>
         </section>
-        <section class="row controls" v-if="matchEnd">
+        <section class="row controls" v-if="gameOver">
             <div class="small-12 columns">
                 <button id="another-round" @click="startGame">TRY AGAIN</button>
                 <button id="statistic" @click="getStatistic">STATISTIC</button>
