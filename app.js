@@ -23,27 +23,19 @@ new Vue({
     methods:{
         // main game logic section
         startGame: function () {
-            this.showMainPanel = true;
-            this.showStartPanel = false;
-            this.gameOver = false;
-            this.showStatistic = false;
-            this.showLog = true;
+            this.toggleControlPanel();
+            this.toggleInfoPanel();
 
-            this.playerHealth = 100;
-            this.monsterHealth = 100;
-            
-            this.playerTotalDamage = 0;
-            this.playerTotalHeal = 0;
-            this.monsterTotalDamage = 0;            
-            this.stats = [];
+            this.resetHealthbars();
+            this.resetStatData();
 
             this.currentState = 'begin';
             this.setLogElementsInTurns(this.currentState);          
         },
         finishGame: function(){
            this.showMainPanel = false;
-           this.gameOver = true;
-           this.showLog = true; 
+           this.showLog = true;
+           this.gameOver = true; 
         },
         attack: function () {
             this.playerAttack(3,10);
@@ -202,9 +194,24 @@ new Vue({
             this.showStatistic = !this.showStatistic;
             this.showLog = false;
         },
-        // giveUpListener: function() {
-        //     if(this.playerTotalDamage == 0 && this.playerTotalHeal == 0)
-        //         this.giveUpFlag = false;
-        // }
+        resetStatData: function(){
+            this.playerTotalDamage = 0;
+            this.playerTotalHeal = 0;
+            this.monsterTotalDamage = 0;            
+            this.stats = [];
+        },
+        resetHealthbars: function(){
+            this.playerHealth = 100;
+            this.monsterHealth = 100;
+        },
+        toggleControlPanel: function(){
+            this.showMainPanel = true;
+            this.showStartPanel = false;
+            this.gameOver = false;
+        },
+        toggleInfoPanel: function(){
+            this.showStatistic = false;
+            this.showLog = true;
+        }
     }
 })
