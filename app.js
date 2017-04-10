@@ -40,6 +40,11 @@ new Vue({
             this.currentState = 'begin';
             this.setLogElementsInTurns(this.currentState);          
         },
+        finishGame: function(){
+           this.showMainPanel = false;
+           this.gameOver = true;
+           this.showLog = true; 
+        },
         attack: function () {
             this.playerAttack(3,10);
 
@@ -107,19 +112,17 @@ new Vue({
         },
         winStatus: function() {
             if(this.monsterHealth <= 0){
-                this.showMainPanel = false;
-                this.gameOver = true;
-                this.showLog = true;
                 this.currentState = 'win';
+
+                this.finishGame();
                 this.setLogElementsInTurns(this.currentState);
                 this.setStatistic(this.currentState);
                 
                 return true;
             }else if (this.playerHealth <= 0){
-                this.showMainPanel = false;
-                this.gameOver = true;
-                this.showLog = true;
                 this.currentState = 'lose';
+                
+                this.finishGame();
                 this.setStatistic(this.currentState);
                 this.setLogElementsInTurns(this.currentState);
                 
