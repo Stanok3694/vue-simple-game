@@ -1,3 +1,4 @@
+# vue-simple-game
 This is my first vue.js app, which is not a tutorial from video course.
 Finally, it looks like simple browser game, not like hello world.
 
