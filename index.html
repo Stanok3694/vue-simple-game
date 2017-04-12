@@ -13,7 +13,7 @@
     <div id="app">
         <section class="row">
             <div class="small-6 columns">
-                <v-card hover="true">
+                <v-card>
                     <v-card-text>
                         <h1 class="text-center">YOU</h1>
                         <div class="healthbar">
@@ -21,15 +21,14 @@
                                 class="healthbar text-center"
                                 style="background-color: green; margin: 0; color: white;"
                                 :style="{width: playerHealth + '%'}"
-                            >
-                                {{ playerHealth }}
+                                >{{ playerHealth }}
                             </div>
                         </div>
                     </v-card-text>
                 </v-card>
             </div>
             <div class="small-6 columns">
-                <v-card hover="true">
+                <v-card>
                     <v-card-text>
                         <h1 class="text-center">MONSTER</h1>
                         <div class="healthbar">
@@ -37,8 +36,7 @@
                                 class="healthbar text-center"
                                 style="background-color: green; margin: 0; color: white;"
                                 :style="{width: monsterHealth + '%'}"
-                            >                        
-                                {{ monsterHealth }}
+                                >{{ monsterHealth }}
                             </div>
                         </div>
                     </v-card-text>
@@ -47,21 +45,55 @@
         </section>
         <section class="row controls" v-if="showStartPanel">
             <div class="small-12 columns">
-                <v-btn primary dark class="green lighten-1" @click.native="startGame">START NEW GAME</v-btn>
+                <v-btn 
+                    primary dark
+                    class="green lighten-1"
+                    @click.native="startGame"
+                    >START NEW GAME</v-btn>
             </div>
         </section>
         <section class="row controls" v-if="showMainPanel">
             <div class="small-12 columns">
-                <v-btn primary dark class="red accent-4" @click.native="attack">ATTACK</v-btn>
-                <v-btn primary dark class="deep-orange darken-1" @click.native="specialAttack">SPECIAL ATTACK</v-btn>
-                <v-btn primary dark class="light-green darken-2" @click.native="heal">HEAL</v-btn>
-                <v-btn primary dark class="grey lighten-1" @click.native="giveUp">GIVE UP</v-btn>
+                <v-btn 
+                    primary dark
+                    class="red accent-4"
+                    @click.native="attack"
+                    >ATTACK
+                </v-btn>
+                <v-btn 
+                    primary dark 
+                    class="deep-orange darken-1"
+                    @click.native="specialAttack"
+                    >SPECIAL ATTACK
+                </v-btn>
+                <v-btn
+                    primary dark
+                    class="light-green darken-2"
+                    @click.native="heal"
+                    >HEAL
+                </v-btn>
+                <v-btn
+                    primary dark
+                    class="grey lighten-1"
+                    @click.native="giveUp"
+                    >GIVE UP
+                </v-btn>
             </div>
         </section>
         <section class="row controls" v-if="gameOver">
             <div class="small-12 columns">
-                <v-btn primary dark class="pink lighten-2" @click.native="startGame">TRY AGAIN</v-btn>
-                <v-btn primary dark class="lime lighten-1" @click.native="getStatistic">STATISTIC</v-btn>
+                <v-btn
+                    primary dark
+                    class="pink lighten-2"
+                    @click.native="startGame"
+                    >TRY AGAIN
+                </v-btn>
+                <v-btn
+                    primary dark
+                    class="lime lighten-1"
+                    @click.native="getStatistic"
+                    >STATISTIC
+                </v-btn>
             </div>
         </section>
         <section class="row log" v-if="showLog">
@@ -70,8 +102,7 @@
                     <li 
                         v-for = "turn in turns"
                         :class = "setClass(turn.classFlag)"
-                        >
-                        {{ turn.text }}
+                        >{{ turn.text }}
                     </li>
                 </ul>
             </div>
@@ -81,8 +112,7 @@
                 <ul>
                     <li 
                         v-for = "stat in stats"
-                        >
-                        {{ stat.text }}
+                        >{{ stat.text }}
                     </li>
                 </ul>
             </div>
