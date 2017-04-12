@@ -13,28 +13,36 @@
     <div id="app">
         <section class="row">
             <div class="small-6 columns">
-                <h1 class="text-center">YOU</h1>
-                <div class="healthbar">
-                    <div 
-                        class="healthbar text-center"
-                        style="background-color: green; margin: 0; color: white;"
-                        :style="{width: playerHealth + '%'}"
-                    >
-                        {{ playerHealth }}
-                    </div>
-                </div>
+                <v-card hover="true">
+                    <v-card-text>
+                        <h1 class="text-center">YOU</h1>
+                        <div class="healthbar">
+                            <div 
+                                class="healthbar text-center"
+                                style="background-color: green; margin: 0; color: white;"
+                                :style="{width: playerHealth + '%'}"
+                            >
+                                {{ playerHealth }}
+                            </div>
+                        </div>
+                    </v-card-text>
+                </v-card>
             </div>
             <div class="small-6 columns">
-                <h1 class="text-center">MONSTER</h1>
-                <div class="healthbar">
-                    <div 
-                        class="healthbar text-center"
-                        style="background-color: green; margin: 0; color: white;"
-                        :style="{width: monsterHealth + '%'}"
-                    >                        
-                        {{ monsterHealth }}
-                    </div>
-                </div>
+                <v-card hover="true">
+                    <v-card-text>
+                        <h1 class="text-center">MONSTER</h1>
+                        <div class="healthbar">
+                            <div 
+                                class="healthbar text-center"
+                                style="background-color: green; margin: 0; color: white;"
+                                :style="{width: monsterHealth + '%'}"
+                            >                        
+                                {{ monsterHealth }}
+                            </div>
+                        </div>
+                    </v-card-text>
+                </v-card>
             </div>
         </section>
         <section class="row controls" v-if="showStartPanel">
