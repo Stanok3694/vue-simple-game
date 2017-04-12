@@ -66,7 +66,7 @@ new Vue({
 
             this.currentState = 'heal';
             this.setLogElementsInTurns(this.currentState);
-            this.attachDisabled = true;
+            this.setPlayerChangeClassFlags();
             this.monsterTurn(5,12);
         },
         giveUp: function () {
@@ -126,9 +126,7 @@ new Vue({
             if(this.winStatus()){
                 return;
             }
-            this.attachDisabled = true;
-            this.isPlayerTurn = true;
-            this.isMonsterTurn = false;           
+            this.setPlayerChangeClassFlags();           
         },
         monsterTurn: function (min, max) {
             
@@ -139,9 +137,8 @@ new Vue({
             var monsterComplex = function(){
                 this.monsterAttack(min,max);                 
                 this.winStatus();
-                this.attachDisabled = false;
-                this.isPlayerTurn = false;
-                this.isMonsterTurn = true;     
+                this.setMonsterChangeClassFlag();
+                
             }.bind(this)
         },
 
@@ -183,6 +180,7 @@ new Vue({
                 })
             }
         },
+        // set classes section
         setClass: function (classFlag) {
             if(classFlag == 'begin') return classFlag
             if(classFlag == 'player-attack') return classFlag
@@ -197,6 +195,17 @@ new Vue({
         setMonsterCardClass: function(){
             if(this.isMonsterTurn == true) return 'elevation-24'
         },
+        setPlayerChangeClassFlags: function(){
+            this.attachDisabled = true;
+            this.isPlayerTurn = true;
+            this.isMonsterTurn = false;
+        },
+        setMonsterChangeClassFlag: function(){
+            this.attachDisabled = false;
+            this.isPlayerTurn = false;
+            this.isMonsterTurn = true;
+        },
+        // statistic section
         setStatistic: function(currentState) {
             if(currentState == 'lose'){
                 this.stats.unshift({
@@ -223,6 +232,7 @@ new Vue({
             this.showStatistic = !this.showStatistic;
             this.showLog = false;
         },
+        // reset data section
         resetStatData: function(){
             this.playerTotalDamage = 0;
             this.playerTotalHeal = 0;
@@ -237,6 +247,7 @@ new Vue({
             this.isPlayerTurn = false,
             this.isMonsterTurn = false
         },
+        // panel visible section
         toggleControlPanel: function(){
             this.showMainPanel = true;
             this.showStartPanel = false;
