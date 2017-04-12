@@ -10,6 +10,7 @@ new Vue({
         playerTotalHeal: 0,
         monsterTotalDamage: 0,
 
+        isYourTurnNow: true,
         showStartPanel: true,
         showMainPanel: false,
         giveUpFlag: true,
@@ -45,16 +46,32 @@ new Vue({
             if(this.winStatus()){
                 return;
             }
-            this.monsterAttack(5,12);                 
-            this.winStatus();  
+            this.isYourTurnNow = false;
+            this.setBtnClass(this.isYourTurnNow);
+
+            setTimeout(()=>{
+                monsterComplex()
+            }, 500);
+
+            var monsterComplex = function(){
+                this.monsterAttack(5,12);                 
+                this.winStatus(); 
+            }.bind(this)
+             
         },
         specialAttack: function () {
             this.playerAttack(5,12);          
             if(this.winStatus()){
                 return;
             }
-            this.monsterAttack(8,22);                 
-            this.winStatus();
+            setTimeout(()=>{
+                monsterComplex()
+            }, 500);
+            
+            var monsterComplex = function(){
+                this.monsterAttack(8,22);                 
+                this.winStatus(); 
+            }.bind(this)
         },
         heal: function () {
             var dealHeal = 10;
@@ -70,7 +87,14 @@ new Vue({
             this.currentState = 'heal';
             this.setLogElementsInTurns(this.currentState);
             
-            this.monsterAttack(5,12);
+            setTimeout(()=>{
+                monsterComplex()
+            }, 500);
+
+            var monsterComplex = function(){
+                this.monsterAttack(5,12);                 
+                this.winStatus(); 
+            }.bind(this)
         },
         giveUp: function () {
             this.showMainPanel = false;
