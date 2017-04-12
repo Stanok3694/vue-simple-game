@@ -10,6 +10,7 @@ new Vue({
         playerTotalHeal: 0,
         monsterTotalDamage: 0,
 
+        attachDisabled: false,
         showStartPanel: true,
         showMainPanel: false,
         giveUpFlag: true,
@@ -60,7 +61,7 @@ new Vue({
 
             this.currentState = 'heal';
             this.setLogElementsInTurns(this.currentState);
-
+            this.attachDisabled = true;
             this.monsterTurn(5,12);
         },
         giveUp: function () {
@@ -120,6 +121,7 @@ new Vue({
             if(this.winStatus()){
                 return;
             }
+            this.attachDisabled = true;
         },
         monsterTurn: function (min, max) {
 
@@ -129,7 +131,8 @@ new Vue({
 
             var monsterComplex = function(){
                 this.monsterAttack(min,max);                 
-                this.winStatus(); 
+                this.winStatus();
+                this.attachDisabled = false; 
             }.bind(this)
         },
 

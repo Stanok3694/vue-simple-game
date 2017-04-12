@@ -53,7 +53,7 @@
             </div>
         </section>
         <section class="row controls" v-if="showMainPanel">
-            <div class="small-12 columns">
+            <div class="small-12" v-if="!attachDisabled">
                 <v-btn 
                     primary dark
                     class="red accent-4"
@@ -78,6 +78,14 @@
                     @click.native="giveUp"
                     >GIVE UP
                 </v-btn>
+            </div>
+            <div class="small-12" v-else>
+                <v-progress-circular 
+                    indeterminate 
+                    v-bind:size="70" 
+                    v-bind:width="7" 
+                    class="purple--text"
+                />
             </div>
         </section>
         <section class="row controls" v-if="gameOver">
