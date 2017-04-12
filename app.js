@@ -13,10 +13,14 @@ new Vue({
         attachDisabled: false,
         showStartPanel: true,
         showMainPanel: false,
-        giveUpFlag: true,
-        gameOver: false,
         showStatistic: false,
         showLog: false,
+
+        isPlayerTurn: false,
+        isMonsterTurn: false,
+        
+        giveUpFlag: true,
+        gameOver: false,
 
         currentState: '',
         
@@ -30,6 +34,7 @@ new Vue({
             this.toggleInfoPanel();
 
             this.resetHealthbars();
+            this.resetTurnStack();
             this.resetStatData();
 
             this.currentState = 'begin';
@@ -122,9 +127,11 @@ new Vue({
                 return;
             }
             this.attachDisabled = true;
+            this.isPlayerTurn = true;
+            this.isMonsterTurn = false;           
         },
         monsterTurn: function (min, max) {
-
+            
             setTimeout(()=>{
                 monsterComplex()
             }, 500);
@@ -132,7 +139,9 @@ new Vue({
             var monsterComplex = function(){
                 this.monsterAttack(min,max);                 
                 this.winStatus();
-                this.attachDisabled = false; 
+                this.attachDisabled = false;
+                this.isPlayerTurn = false;
+                this.isMonsterTurn = true;     
             }.bind(this)
         },
 
@@ -180,8 +189,13 @@ new Vue({
             if(classFlag == 'monster-attack') return classFlag
             if(classFlag == 'heal') return classFlag
             if(classFlag == 'win') return classFlag
-            if(classFlag == 'lose') return classFlag
-            
+            if(classFlag == 'lose') return classFlag 
+        },
+        setPlayerCardClass: function(){
+            if(this.isPlayerTurn == true) return 'elevation-24'
+        },
+        setMonsterCardClass: function(){
+            if(this.isMonsterTurn == true) return 'elevation-24'
         },
         setStatistic: function(currentState) {
             if(currentState == 'lose'){
@@ -218,6 +232,10 @@ new Vue({
         resetHealthbars: function(){
             this.playerHealth = 100;
             this.monsterHealth = 100;
+        },
+        resetTurnStack: function(){
+            this.isPlayerTurn = false,
+            this.isMonsterTurn = false
         },
         toggleControlPanel: function(){
             this.showMainPanel = true;

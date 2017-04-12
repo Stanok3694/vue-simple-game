@@ -12,8 +12,8 @@
 <body>
     <div id="app">
         <section class="row">
-            <div class="small-6 columns">
-                <v-card>
+            <div class="small-6 columns" >
+                <v-card :class = "setPlayerCardClass()">
                     <v-card-text>
                         <h1 class="text-center">YOU</h1>
                         <div class="healthbar">
@@ -27,8 +27,8 @@
                     </v-card-text>
                 </v-card>
             </div>
-            <div class="small-6 columns">
-                <v-card>
+            <div class="small-6 columns" >
+                <v-card :class = "setMonsterCardClass()">
                     <v-card-text>
                         <h1 class="text-center">MONSTER</h1>
                         <div class="healthbar">
