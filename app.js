@@ -10,7 +10,6 @@ new Vue({
         playerTotalHeal: 0,
         monsterTotalDamage: 0,
 
-        isYourTurnNow: true,
         showStartPanel: true,
         showMainPanel: false,
         giveUpFlag: true,
@@ -41,37 +40,12 @@ new Vue({
            this.gameOver = true; 
         },
         attack: function () {
-            this.playerAttack(3,10);
-
-            if(this.winStatus()){
-                return;
-            }
-            this.isYourTurnNow = false;
-            this.setBtnClass(this.isYourTurnNow);
-
-            setTimeout(()=>{
-                monsterComplex()
-            }, 500);
-
-            var monsterComplex = function(){
-                this.monsterAttack(5,12);                 
-                this.winStatus(); 
-            }.bind(this)
-             
+            this.playerTurn(3,12);
+            this.monsterTurn(5,12);      
         },
         specialAttack: function () {
-            this.playerAttack(5,12);          
-            if(this.winStatus()){
-                return;
-            }
-            setTimeout(()=>{
-                monsterComplex()
-            }, 500);
-            
-            var monsterComplex = function(){
-                this.monsterAttack(8,22);                 
-                this.winStatus(); 
-            }.bind(this)
+            this.playerTurn(5,12);
+            this.monsterTurn(8,22);
         },
         heal: function () {
             var dealHeal = 10;
@@ -86,15 +60,8 @@ new Vue({
 
             this.currentState = 'heal';
             this.setLogElementsInTurns(this.currentState);
-            
-            setTimeout(()=>{
-                monsterComplex()
-            }, 500);
 
-            var monsterComplex = function(){
-                this.monsterAttack(5,12);                 
-                this.winStatus(); 
-            }.bind(this)
+            this.monsterTurn(5,12);
         },
         giveUp: function () {
             this.showMainPanel = false;
@@ -106,7 +73,7 @@ new Vue({
             this.setLogElementsInTurns(this.currentState);
         },
 
-        // service section
+        // gameplay service section
         playerAttack: function(min, max){
             var dealDamage = this.calculateDamage(min,max);
             this.monsterHealth -= dealDamage;
@@ -148,6 +115,25 @@ new Vue({
             }
             return false;
         },
+        playerTurn: function(min, max) {
+            this.playerAttack(min,max);
+            if(this.winStatus()){
+                return;
+            }
+        },
+        monsterTurn: function (min, max) {
+
+            setTimeout(()=>{
+                monsterComplex()
+            }, 500);
+
+            var monsterComplex = function(){
+                this.monsterAttack(min,max);                 
+                this.winStatus(); 
+            }.bind(this)
+        },
+
+        // additional service section
         setLogElementsInTurns: function (currentState, additionalInfo) {
             if(currentState == 'begin') {
                 this.turns = [];
