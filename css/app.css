@@ -73,13 +73,13 @@
     box-shadow: 0 0 10px #ffc0c1;
 }
 
-.elevation-player{
+.turn-player{
     box-shadow: 0 11px 15px -7px goldenrod,
                 0 24px 38px 3px goldenrod,
                 0 9px 46px 8px goldenrod!important;
 }
 
-.elevation-monster{
+.turn-monster{
     box-shadow: 0 11px 15px -7px lightgreen,
                 0 24px 38px 3px lightgreen,
                 0 9px 46px 8px lightgreen!important;

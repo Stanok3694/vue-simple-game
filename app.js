@@ -3,6 +3,8 @@ Vue.use(Vuetify)
 new Vue({
     el:"#app",
     data:{
+        playerName: 'Player',
+        
         playerHealth: 100,
         monsterHealth: 100,
         
@@ -103,6 +105,7 @@ new Vue({
         },
         winStatus: function() {
             if(this.monsterHealth <= 0){
+                this.monsterHealth = 0;
                 this.currentState = 'win';
 
                 this.finishGame();
@@ -111,6 +114,7 @@ new Vue({
                 
                 return true;
             }else if (this.playerHealth <= 0){
+                this.playerHealth = 0;
                 this.currentState = 'lose';
                 
                 this.finishGame();
@@ -190,10 +194,10 @@ new Vue({
             if(classFlag == 'lose') return classFlag 
         },
         setPlayerCardClass: function(){
-            if(this.isPlayerTurn == true) return 'elevation-player'
+            if(this.isPlayerTurn == true) return 'turn-player'
         },
         setMonsterCardClass: function(){
-            if(this.isMonsterTurn == true) return 'elevation-monster'
+            if(this.isMonsterTurn == true) return 'turn-monsterr'
         },
         setPlayerChangeClassFlags: function(){
             this.attachDisabled = true;
@@ -230,7 +234,6 @@ new Vue({
         },
         getStatistic: function(){
             this.showStatistic = !this.showStatistic;
-            this.showLog = false;
         },
         // reset data section
         resetStatData: function(){
@@ -256,6 +259,18 @@ new Vue({
         toggleInfoPanel: function(){
             this.showStatistic = false;
             this.showLog = true;
+        },
+        switchStartGamePanels: function(){
+            this.showStartButtom = false;
+            this.showUserDataPanel = true;
+        },
+        toggleSignUpPanel: function(){
+            this.showSignUpPanel = true;
+            this.showUserDataPanel = false;
+        },
+        toggleSignInPanel: function(){
+            this.showSignInPanel = true;
+            this.showUserDataPanel = false;
         }
     }
 })
