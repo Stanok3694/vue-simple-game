@@ -259,18 +259,6 @@ new Vue({
         toggleInfoPanel: function(){
             this.showStatistic = false;
             this.showLog = true;
-        },
-        switchStartGamePanels: function(){
-            this.showStartButtom = false;
-            this.showUserDataPanel = true;
-        },
-        toggleSignUpPanel: function(){
-            this.showSignUpPanel = true;
-            this.showUserDataPanel = false;
-        },
-        toggleSignInPanel: function(){
-            this.showSignInPanel = true;
-            this.showUserDataPanel = false;
         }
     }
 })
