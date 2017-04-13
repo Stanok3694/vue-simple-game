@@ -190,10 +190,10 @@ new Vue({
             if(classFlag == 'lose') return classFlag 
         },
         setPlayerCardClass: function(){
-            if(this.isPlayerTurn == true) return 'elevation-24'
+            if(this.isPlayerTurn == true) return 'elevation-player'
         },
         setMonsterCardClass: function(){
-            if(this.isMonsterTurn == true) return 'elevation-24'
+            if(this.isMonsterTurn == true) return 'elevation-monster'
         },
         setPlayerChangeClassFlags: function(){
             this.attachDisabled = true;
