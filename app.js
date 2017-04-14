@@ -49,11 +49,19 @@ new Vue({
         },
         attack: function () {
             this.playerTurn(3,12);
-            this.monsterTurn(5,12);      
+            if(this.winStatus()){
+                return;
+            }
+            this.monsterTurn(5,12);
+            this.winStatus();      
         },
         specialAttack: function () {
             this.playerTurn(5,12);
+            if(this.winStatus()){
+                return;
+            }
             this.monsterTurn(8,22);
+            this.winStatus(); 
         },
         heal: function () {
             var dealHeal = 10;
@@ -80,7 +88,6 @@ new Vue({
             this.setStatistic(this.currentState);
             this.setLogElementsInTurns(this.currentState);
         },
-
         // gameplay service section
         playerAttack: function(min, max){
             var dealDamage = this.calculateDamage(min,max);
@@ -109,8 +116,8 @@ new Vue({
                 this.currentState = 'win';
 
                 this.finishGame();
-                this.setLogElementsInTurns(this.currentState);
                 this.setStatistic(this.currentState);
+                this.setLogElementsInTurns(this.currentState);
                 
                 return true;
             }else if (this.playerHealth <= 0){
@@ -120,32 +127,25 @@ new Vue({
                 this.finishGame();
                 this.setStatistic(this.currentState);
                 this.setLogElementsInTurns(this.currentState);
-                
+
                 return true;
             }
             return false;
         },
         playerTurn: function(min, max) {
             this.playerAttack(min,max);
-            if(this.winStatus()){
-                return;
-            }
             this.setPlayerChangeClassFlags();           
         },
         monsterTurn: function (min, max) {
-            
             setTimeout(()=>{
                 monsterComplex()
             }, 500);
 
             var monsterComplex = function(){
-                this.monsterAttack(min,max);                 
-                this.winStatus();
+                this.monsterAttack(min,max);
                 this.setMonsterChangeClassFlag();
-                
             }.bind(this)
         },
-
         // additional service section
         setLogElementsInTurns: function (currentState, additionalInfo) {
             if(currentState == 'begin') {
@@ -197,7 +197,7 @@ new Vue({
             if(this.isPlayerTurn == true) return 'turn-player'
         },
         setMonsterCardClass: function(){
-            if(this.isMonsterTurn == true) return 'turn-monsterr'
+            if(this.isMonsterTurn == true) return 'turn-monster'
         },
         setPlayerChangeClassFlags: function(){
             this.attachDisabled = true;
@@ -239,7 +239,8 @@ new Vue({
         resetStatData: function(){
             this.playerTotalDamage = 0;
             this.playerTotalHeal = 0;
-            this.monsterTotalDamage = 0;            
+            this.monsterTotalDamage = 0;
+
             this.stats = [];
         },
         resetHealthbars: function(){
